@@ -19,7 +19,7 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PreAuthorize("permitAll()")
+    @PreAuthorize("isAnonymous()")
     @PostMapping("/user")
     public void register(@RequestBody User user) {
         userService.register(user);
