@@ -22,7 +22,7 @@ public class UserService {
     public void register(User user) {
         /* 检查用户信息 */
         if (userRepository.existsById(user.getUsername()))
-            throw new WebRequestException("conflict username");
+            throw new WebRequestException("conflict-username");
 
 
         user.password_DEBUG = user.getPassword(); // FIXME: 密码明码

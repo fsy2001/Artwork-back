@@ -11,4 +11,6 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Integer> {
     List<Artwork> findByTitleLike(String title);
 
     List<Artwork> findByAuthorLike(String author);
+
+    List<Artwork> findFirst3ByOrderByView();
 }

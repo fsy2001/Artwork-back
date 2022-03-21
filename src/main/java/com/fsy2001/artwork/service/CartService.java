@@ -34,7 +34,7 @@ public class CartService {
         Artwork artwork = artworkRepository.getById(itemId);
         Cart cart = new Cart(user, artwork);
         if (cartRepository.existsById(cart.getId()))
-            throw new WebRequestException("item already added");
+            throw new WebRequestException("item-already-added");
 
         cartRepository.save(cart);
     }
@@ -44,7 +44,7 @@ public class CartService {
         Artwork artwork = artworkRepository.getById(itemId);
         Cart cart = cartRepository.findByUserAndArtwork(user, artwork);
         if (cart == null)
-            throw new WebRequestException("item not added");
+            throw new WebRequestException("item-not-added");
         cartRepository.delete(cart);
     }
 

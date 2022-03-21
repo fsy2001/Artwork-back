@@ -20,7 +20,7 @@ public class ArtworkService {
 
     public Artwork findArtwork(Integer id, boolean browse) { // 根据ID查找
         Artwork artwork = artworkRepository.findById(id)
-                .orElseThrow(() -> new WebRequestException("artwork not exist"));
+                .orElseThrow(() -> new WebRequestException("artwork-not-exist"));
         if (browse) { // 访问量增加
             artwork.addView();
             artworkRepository.save(artwork);
@@ -40,5 +40,9 @@ public class ArtworkService {
         }
 
         return result;
+    }
+
+    public List<Artwork> findTopView() {
+        return artworkRepository.findFirst3ByOrderByView();
     }
 }

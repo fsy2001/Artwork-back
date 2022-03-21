@@ -42,4 +42,10 @@ public class ArtworkController {
         String query = isTitle ? title : author;
         return artworkService.searchArtwork(query, isTitle, sort);
     }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/top")
+    public List<Artwork> findTopView() {
+        return artworkService.findTopView();
+    }
 }

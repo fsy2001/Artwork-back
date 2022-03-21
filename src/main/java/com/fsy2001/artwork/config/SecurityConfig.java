@@ -75,11 +75,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     // put message in different cases
                     if (ex instanceof UsernameNotFoundException
                             || ex instanceof BadCredentialsException) {
-                        map.put("message", "用户名或密码错误");
+                        map.put("message", "login-fail");
                     } else if (ex instanceof DisabledException) {
-                        map.put("message", "账号被禁用");
+                        map.put("message", "account-banned");
                     } else {
-                        map.put("message", "未知错误");
+                        map.put("message", "unknown-error");
                     }
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     PrintWriter out = response.getWriter();
                     Map<String, Object> map = new HashMap<>();
                     map.put("httpStatus", 401);
-                    map.put("message", "需要登录");
+                    map.put("message", "require-login");
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     out.write(objectMapper.writeValueAsString(map));
                     out.flush();
