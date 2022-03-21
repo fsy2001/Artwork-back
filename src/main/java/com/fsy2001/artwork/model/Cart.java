@@ -1,9 +1,12 @@
 package com.fsy2001.artwork.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
-@Table(name="cart")
+@Table(name = "cart")
 public class Cart {
     @Id
     private String id;
@@ -20,8 +23,6 @@ public class Cart {
         this.artwork = artwork;
         id = user.getUsername() + "-" + artwork.getId().toString();
     }
-
-
 
 
     public String getId() {
