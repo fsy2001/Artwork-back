@@ -36,11 +36,10 @@ public class ArtworkController {
     @PreAuthorize("permitAll()")
     @GetMapping("/search")
     public List<Artwork> searchArtwork(@RequestParam(value = "title", required = false) String title,
-                                       @RequestParam(value = "author", required = false) String author,
-                                       @RequestParam(value = "sort", required = false) String sort) {
+                                       @RequestParam(value = "author", required = false) String author) {
         boolean isTitle = title != null;
         String query = isTitle ? title : author;
-        return artworkService.searchArtwork(query, isTitle, sort);
+        return artworkService.searchArtwork(query, isTitle);
     }
 
     @PreAuthorize("permitAll()")

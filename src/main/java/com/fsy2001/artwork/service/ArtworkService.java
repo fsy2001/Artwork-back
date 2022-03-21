@@ -6,7 +6,6 @@ import com.fsy2001.artwork.repository.ArtworkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -28,18 +27,9 @@ public class ArtworkService {
         return artwork;
     }
 
-    public List<Artwork> searchArtwork(String query, boolean isTitle, String sort) { // 根据作者或标题查找
-        /* 查找 */
+    public List<Artwork> searchArtwork(String query, boolean isTitle) { // 根据作者或标题查找
         String fuzzyQuery = "%" + query + "%";
-        List<Artwork> result = isTitle ? artworkRepository.findByTitleLike(fuzzyQuery) : artworkRepository.findByAuthorLike(fuzzyQuery);
-
-        /* 排序，ref: https://dev.to/codebyamir/sort-a-list-of-objects-by-field-in-java-3coj */
-        switch (sort) {
-            case "view": result.sort(Comparator.comparing(Artwork::getView).reversed());
-            case "price": result.sort(Comparator.comparing(Artwork::getPrice).reversed());
-        }
-
-        return result;
+        return isTitle ? artworkRepository.findByTitleLike(fuzzyQuery) : artworkRepository.findByAuthorLike(fuzzyQuery);
     }
 
     public List<Artwork> findTopView() {
