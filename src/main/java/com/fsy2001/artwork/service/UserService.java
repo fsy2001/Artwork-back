@@ -31,4 +31,16 @@ public class UserService {
         user.setBalance(0); // 初始余额
         userRepository.save(user);
     }
+
+    public User getInfo(String username) {
+        return userRepository.findById(username)
+                .orElseThrow(() -> new WebRequestException("user-not-exist"));
+    }
+
+    public void recharge(Integer val, String username) {
+        User user = userRepository.findById(username)
+                .orElseThrow(() -> new WebRequestException("user-not-exist"));
+        user.addBalance(val);
+        userRepository.save(user);
+    }
 }

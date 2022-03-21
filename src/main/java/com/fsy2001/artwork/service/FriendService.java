@@ -2,6 +2,8 @@ package com.fsy2001.artwork.service;
 
 import com.fsy2001.artwork.exception.WebRequestException;
 import com.fsy2001.artwork.model.Friend;
+import com.fsy2001.artwork.model.User;
+import com.fsy2001.artwork.model.support.FriendDisplay;
 import com.fsy2001.artwork.repository.FriendRepository;
 import com.fsy2001.artwork.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -26,10 +28,14 @@ public class FriendService {
                 .collect(Collectors.toList());
     }
 
-    public List<String> getFriends(String username) { // 获取用户的好友
+    public List<FriendDisplay> getFriends(String username) { // 获取用户的好友
         return friendRepository.findBySelfAndApproved(username, true)
                 .stream()
                 .map(Friend::getFriend)
+                .map(name -> {
+                    User user = userRepository.getUserByUsername(name);
+                    return new FriendDisplay(name, user.getImg());
+                })
                 .collect(Collectors.toList());
     }
 

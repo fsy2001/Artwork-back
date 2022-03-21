@@ -1,5 +1,6 @@
 package com.fsy2001.artwork.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fsy2001.artwork.security.UserRole;
 
 import javax.persistence.Entity;
@@ -14,8 +15,11 @@ public class User {
     @Id
     @NotBlank
     private String username;
+    @JsonIgnore
     private String password;
+    @JsonIgnore
     public String password_DEBUG; // FIXME: 密码明码
+    @JsonIgnore
     private UserRole role;
 
     /* 个人信息 */
@@ -26,6 +30,7 @@ public class User {
     private String addressCity;
     private String addressDistrict;
     private String addressDetail;
+    private String img = "https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png";
 
     /* 余额 */
     private Integer balance;
@@ -113,5 +118,17 @@ public class User {
 
     public void setBalance(Integer balance) {
         this.balance = balance;
+    }
+
+    public void addBalance(Integer val) {
+        this.balance += val;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 }

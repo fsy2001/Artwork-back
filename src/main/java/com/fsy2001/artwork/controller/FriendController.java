@@ -1,5 +1,6 @@
 package com.fsy2001.artwork.controller;
 
+import com.fsy2001.artwork.model.support.FriendDisplay;
 import com.fsy2001.artwork.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +21,7 @@ public class FriendController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping
-    public List<String> getFriends(Principal principal) {
+    public List<FriendDisplay> getFriends(Principal principal) {
         return friendService.getFriends(principal.getName());
     }
 
