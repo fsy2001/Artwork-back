@@ -19,12 +19,16 @@ public class ApplicationUserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username)
+    public UserDetails loadUserByUsername(String credential)
             throws UsernameNotFoundException {
-        User user = repository.getUserByUsername(username);
+
+        /* 判断是用户名还是邮箱 */
+        User user = credential.contains("@") ?
+                repository.getUserByEmail(credential) :
+                repository.getUserByUsername(credential);
 
         if (user == null)
-            throw new UsernameNotFoundException(String.format("Could not find user %s", username));
+            throw new UsernameNotFoundException(String.format("Could not find user %s", credential));
         return new ApplicationUserDetail(user);
     }
 }

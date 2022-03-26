@@ -23,6 +23,8 @@ public class UserService {
         /* 检查用户信息 */
         if (userRepository.existsById(user.getUsername()))
             throw new WebRequestException("conflict-username");
+        if (userRepository.getUserByEmail(user.getEmail()) != null)
+            throw new WebRequestException("conflict-email");
 
 
         user.password_DEBUG = user.getPassword(); // FIXME: 密码明码
