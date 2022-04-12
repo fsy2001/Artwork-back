@@ -42,4 +42,11 @@ public class CartController {
         String username = principal.getName();
         cartService.deleteItem(username, itemId);
     }
+
+    /* 清空购物车 */
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/clear")
+    public void clearCart(Principal principal) {
+        cartService.clearCart(principal.getName());
+    }
 }
