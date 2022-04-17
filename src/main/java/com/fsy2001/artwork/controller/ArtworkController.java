@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -21,15 +22,16 @@ public class ArtworkController {
     /* 浏览，增加访问量 */
     @PreAuthorize("permitAll()")
     @GetMapping("/browse/{id}")
-    public Artwork browseArtwork(@PathVariable(value = "id") Integer id) {
-        return artworkService.findArtwork(id, true);
+    public Artwork browseArtwork(@PathVariable(value = "id") Integer id, Principal principal) {
+        String username = principal == null ? null : principal.getName();
+        return artworkService.findArtwork(id, true, username);
     }
 
     /* 查看，不增加访问量 */
     @PreAuthorize("permitAll()")
     @GetMapping("{id}")
     public Artwork getDetail(@PathVariable(value = "id") Integer id) {
-        return artworkService.findArtwork(id, false);
+        return artworkService.findArtwork(id, false, null);
     }
 
     /* 搜索，二选一 */
@@ -46,5 +48,11 @@ public class ArtworkController {
     @GetMapping("/top")
     public List<Artwork> findTopView() {
         return artworkService.findTopView();
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/history")
+    public List<Artwork> viewHistory(Principal principal) {
+        return artworkService.viewHistory(principal.getName());
     }
 }
