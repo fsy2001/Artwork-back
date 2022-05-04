@@ -1,6 +1,7 @@
 package com.fsy2001.artwork.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fsy2001.artwork.security.UserRole;
 
 import javax.persistence.Entity;
@@ -15,7 +16,7 @@ public class User {
     @Id
     @NotBlank
     private String username;
-    @JsonIgnore
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @JsonIgnore
     public String password_DEBUG; // FIXME: 密码明码
