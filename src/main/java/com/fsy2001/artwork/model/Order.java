@@ -1,6 +1,7 @@
 package com.fsy2001.artwork.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "user_order")
@@ -13,6 +14,8 @@ public class Order {
     private String username;
     private String status; // waiting, canceled, paid, received
     private Integer shippingStatus = 0;
+    private Date deliveryTime;
+    private Date generateTime;
 
     public Order() {
     }
@@ -21,6 +24,7 @@ public class Order {
         this.artwork = artwork;
         this.username = username;
         this.status = "waiting";
+        this.generateTime = new Date();
     }
 
 
@@ -59,5 +63,21 @@ public class Order {
 
     public void setShippingStatus(Integer shippingStatus) {
         this.shippingStatus = shippingStatus;
+    }
+
+    public Date getDeliveryTime() {
+        return deliveryTime;
+    }
+
+    public void setDeliveryTime(Date deliveryTime) {
+        this.deliveryTime = deliveryTime;
+    }
+
+    public Date getGenerateTime() {
+        return generateTime;
+    }
+
+    public void setGenerateTime(Date generateTime) {
+        this.generateTime = generateTime;
     }
 }

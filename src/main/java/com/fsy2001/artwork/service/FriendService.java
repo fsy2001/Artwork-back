@@ -2,6 +2,7 @@ package com.fsy2001.artwork.service;
 
 import com.fsy2001.artwork.exception.WebRequestException;
 import com.fsy2001.artwork.model.Friend;
+import com.fsy2001.artwork.model.Message;
 import com.fsy2001.artwork.model.User;
 import com.fsy2001.artwork.model.support.FriendDisplay;
 import com.fsy2001.artwork.repository.FriendRepository;
@@ -15,10 +16,12 @@ import java.util.stream.Collectors;
 public class FriendService {
     private final FriendRepository friendRepository;
     private final UserRepository userRepository;
+    private final MessageService messageService;
 
-    public FriendService(FriendRepository friendRepository, UserRepository userRepository) {
+    public FriendService(FriendRepository friendRepository, UserRepository userRepository, MessageService messageService) {
         this.friendRepository = friendRepository;
         this.userRepository = userRepository;
+        this.messageService = messageService;
     }
 
     public List<String> getFriendApplication(String username) { // 获取用户的好友申请
@@ -33,8 +36,17 @@ public class FriendService {
                 .stream()
                 .map(Friend::getFriend)
                 .map(name -> {
+                    /* 获取最近消息 */
+                    List<Message> messageList = messageService.getMessageList(username, name);
+                    String recentMessage = "";
+                    if (!messageList.isEmpty()) {
+                        recentMessage = messageList.get(messageList.size() - 1).getContent();
+                        if (recentMessage.length() > 5)
+                            recentMessage = recentMessage.substring(0, 5) + "...";
+                    }
+
                     User user = userRepository.getUserByUsername(name);
-                    return new FriendDisplay(name, user.getImg());
+                    return new FriendDisplay(name, user.getImg(), recentMessage);
                 })
                 .collect(Collectors.toList());
     }

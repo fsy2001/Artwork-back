@@ -85,9 +85,6 @@ public class CartService {
             artwork.setSold(true);
         }
 
-        if (priceSum > user.getBalance())
-            throw new WebRequestException("not-enough-balance");
-
         artworkRepository.saveAll(artworkList);
         orderRepository.saveAll(orderList);
         cartRepository.deleteAll(cartList);

@@ -8,6 +8,7 @@ import com.fsy2001.artwork.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,6 +44,7 @@ public class OrderService {
         if (user.getBalance() < 0)
             throw new WebRequestException("not-enough-balance");
 
+        order.setDeliveryTime(new Date()); // 存储发货时间
         orderRepository.save(order);
         userRepository.save(user);
 
